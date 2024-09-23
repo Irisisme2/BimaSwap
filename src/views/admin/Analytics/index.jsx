@@ -22,20 +22,11 @@
 
 // Chakra imports
 import { Box, SimpleGrid } from "@chakra-ui/react";
-import DevelopmentTable from "views/admin/Analytics/components/DevelopmentTable";
-import CheckTable from "views/admin/Analytics/components/CheckTable";
-import ColumnsTable from "views/admin/Analytics/components/ColumnsTable";
-import ComplexTable from "views/admin/Analytics/components/ComplexTable";
-import {
-  columnsDataDevelopment,
-  columnsDataCheck,
-  columnsDataColumns,
-  columnsDataComplex,
-} from "views/admin/Analytics/variables/columnsData";
-import tableDataDevelopment from "views/admin/Analytics/variables/tableDataDevelopment.json";
-import tableDataCheck from "views/admin/Analytics/variables/tableDataCheck.json";
-import tableDataColumns from "views/admin/Analytics/variables/tableDataColumns.json";
-import tableDataComplex from "views/admin/Analytics/variables/tableDataComplex.json";
+import AnalyticsReports from "views/admin/Analytics/components/AnalyticsReports";
+import EarningsReports from "views/admin/Analytics/components/EarningsReports";
+import RiskAnalysis from "views/admin/Analytics/components/RiskAnalysis";
+import MarketAnalytics from "views/admin/Analytics/components/MarketAnalytics";
+
 import React from "react";
 
 export default function Settings() {
@@ -44,21 +35,18 @@ export default function Settings() {
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid
         mb='20px'
-        columns={{ sm: 1, md: 2 }}
+        columns={{ sm: 1, md: 1 }}
         spacing={{ base: "20px", xl: "20px" }}>
-        <DevelopmentTable
-          columnsData={columnsDataDevelopment}
-          tableData={tableDataDevelopment}
-        />
-        <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
-        <ColumnsTable
-          columnsData={columnsDataColumns}
-          tableData={tableDataColumns}
-        />
-        <ComplexTable
-          columnsData={columnsDataComplex}
-          tableData={tableDataComplex}
-        />
+        <AnalyticsReports />
+        <EarningsReports />
+        <SimpleGrid
+        mb='20px'
+        columns={{ sm: 1, md: 2}}
+        spacing={{ base: "20px", xl: "20px" }}>
+          <RiskAnalysis />
+        <MarketAnalytics />
+        </SimpleGrid>
+        
       </SimpleGrid>
     </Box>
   );
