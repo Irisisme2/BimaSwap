@@ -39,6 +39,8 @@ import Card from "components/card/Card.js";
 import USDCIcon from "assets/img/icons/usdc.png";
 import ETHIcon from "assets/img/icons/eth.png";
 import BTCIcon from "assets/img/icons/btc.jpg";
+import Gauge from "react-gauge-chart"; // Default import for Gauge
+
 // Sample data for strategies with detailed information
 const strategiesData = [
   {
@@ -57,6 +59,7 @@ const strategiesData = [
       "Regularly audited protocols ensure security.",
       "Ideal for beginners and risk-averse investors.",
     ],
+    riskAssessment: 0.4, // Add a risk assessment score between 0 and 1
   },
   {
     name: "Medium-Risk Strategy",
@@ -74,6 +77,7 @@ const strategiesData = [
       "Suitable for investors looking for growth with managed risk.",
       "Focuses on liquidity provision and yield optimization.",
     ],
+    riskAssessment: 0.6, // Add a risk assessment score
   },
   {
     name: "High-Risk Strategy",
@@ -91,6 +95,7 @@ const strategiesData = [
       "Higher volatility requires active monitoring.",
       "Best suited for experienced investors looking for significant gains.",
     ],
+    riskAssessment: 0.8, // Add a risk assessment score
   },
 ];
 
@@ -148,9 +153,24 @@ const StrategyOverview = () => {
                   <XAxis dataKey="month" />
                   <YAxis />
                   <RechartsTooltip />
-                  <Line type="monotone" dataKey="yield" stroke={index === 0 ? "#4A90E2" : index === 1 ? "#F1C40F" : "#E74C3C"} strokeWidth={2} />
+                  <Line type="monotone" dataKey="yield" stroke="#4A90E2" strokeWidth={2} />
                 </LineChart>
               </ResponsiveContainer>
+              <Divider my="20px" />
+              
+              <HStack spacing={4} alignItems="center">
+                <Text fontWeight="bold">Risk Assessment:</Text>
+                <Gauge
+                  id="gauge"
+                  nrOfLevels={5}
+                  colors={["#FF0000", "#FF7F00", "#FFFF00", "#7FFF00", "#00FF00"]}
+                  arcWidth={0.3}
+                  percent={selectedStrategy.riskAssessment}
+                  textColor="#000000"
+                  style={{ width: "180px", height: "180px" }} // Smaller gauge size
+                />
+              </HStack>
+
               <Divider my="20px" />
               <Text fontWeight="bold">Key Insights:</Text>
               <VStack align="start" spacing={1}>
@@ -194,68 +214,12 @@ const StrategyOverview = () => {
                 </Select>
               </FormControl>
               <Button mt={4} colorScheme="blue" onClick={handleCustomize}>
-                Apply Customization
+                Apply Customizations
               </Button>
             </TabPanel>
           ))}
         </TabPanels>
       </Tabs>
-      <Box mt="20px">
-        <Text fontWeight="bold">More Information:</Text>
-        <Text>
-          Each strategy is tailored to different risk tolerances, allowing investors to choose based on their financial goals.
-          Consider diversifying across strategies for a balanced portfolio. Always consult with a financial advisor for personalized advice.
-        </Text>
-      </Box>
-
-      {/* Modal for strategy customization */}
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Customize Your Strategy</ModalHeader>
-          <ModalBody>
-            <Text>Modify your strategy parameters:</Text>
-            <FormControl mt={4}>
-              <FormLabel>Minimum APY:</FormLabel>
-              <Select value={minAPY} onChange={(e) => setMinAPY(e.target.value)}>
-                <option value="3%">3%</option>
-                <option value="5%">5%</option>
-                <option value="7%">7%</option>
-                <option value="10%">10%</option>
-                <option value="15%">15%</option>
-                <option value="20%">20%</option>
-              </Select>
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Maximum APY:</FormLabel>
-              <Select value={maxAPY} onChange={(e) => setMaxAPY(e.target.value)}>
-                <option value="10%">10%</option>
-                <option value="15%">15%</option>
-                <option value="20%">20%</option>
-                <option value="25%">25%</option>
-                <option value="30%">30%</option>
-              </Select>
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Risk Level:</FormLabel>
-              <Select value={riskLevel} onChange={(e) => setRiskLevel(e.target.value)}>
-                <option value="All">All</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-              </Select>
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" onClick={handleCustomize}>
-              Apply
-            </Button>
-            <Button ml={3} onClick={() => setShowModal(false)}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </Card>
   );
 };
